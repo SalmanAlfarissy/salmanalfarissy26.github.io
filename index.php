@@ -340,47 +340,35 @@
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">Mobile</li>
-              <li data-filter=".filter-card">Desktop</li>
-              <li data-filter=".filter-web">Web</li>
+              <?php 
+                include "koneksi.php";
+                $tampil=mysqli_query($koneksi,"SELECT * FROM kategori");
+                while ($data=mysqli_fetch_array($tampil)) { 
+                  echo "<li data-filter='.filter-$data[nama_kategori]'>$data[nama_kategori]</li>";
+                }
+              ?>
+              
             </ul>
           </div>
         </div>
 
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/mobile.png" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/mobile.png" data-gall="portfolioGallery" class="venobox" title="App 1"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-mobile.html" title="More Details"><i class="bx bx-link"></i></a>
+        <?php 
+        $query = mysqli_query($koneksi,"SELECT * FROM project join kategori using(id_kategori)");
+        while ($tampil=mysqli_fetch_array($query)){
+          echo "<div class='col-lg-4 col-md-6 portfolio-item filter-$tampil[nama_kategori]'>
+            <div class='portfolio-wrap'>
+              <img src='admin/image/slide1/$tampil[slide1]' class='img-fluid' alt=''>
+              <div class='portfolio-links'>
+                <a href='admin/image/slide1/$tampil[slide1]' data-gall='portfolioGallery' class='venobox' title='$tampil[nama_kategori]'><i class='bx bx-plus'></i></a>
+                <a href='portfolio.php?project_id=$tampil[project_id]' title='More Details'><i class='bx bx-link'></i></a>
               </div>
             </div>
-          </div>
+          </div>";
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/web1.png" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/web1.png" data-gall="portfolioGallery" class="venobox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-web.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/desktop1.png" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/desktop1.png" data-gall="portfolioGallery" class="venobox" title="Card 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-desktop.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-
+        }
+          
+          ?>
         </div>
 
       </div>

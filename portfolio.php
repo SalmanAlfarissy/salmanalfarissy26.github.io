@@ -57,12 +57,12 @@
 
       <nav class="nav-menu">
         <ul>
-          <li><a href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
-          <li><a href="index.html?#about"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <li><a href="index.html?#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+          <li><a href="index.php"><i class="bx bx-home"></i> <span>Home</span></a></li>
+          <li><a href="index.php?#about"><i class="bx bx-user"></i> <span>About</span></a></li>
+          <li><a href="index.php?#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
           <li class="active"><a href="#portfolio-details"><i class="bx bx-book-content"></i> Portfolio</a></li>
           <!-- <li><a href="#services"><i class="bx bx-server"></i> Services</a></li> -->
-          <li><a href="index.html?#contact"><i class="bx bx-envelope"></i> Contact</a></li>
+          <li><a href="index.php?#contact"><i class="bx bx-envelope"></i> Contact</a></li>
 
         </ul>
       </nav><!-- .nav-menu -->
@@ -80,7 +80,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>Portfoio Details</h2>
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li>Portfoio Details</li>
           </ol>
         </div>
@@ -95,18 +95,30 @@
         <div class="portfolio-details-container">
 
           <div class="owl-carousel portfolio-details-carousel">
-            <img src="assets/img/portfolio/web1.png" class="img-fluid" alt="">
-            <img src="assets/img/portfolio/web2.png" class="img-fluid" alt="">
-            <img src="assets/img/portfolio/web3.png" class="img-fluid" alt="">
+            <?php 
+            include "koneksi.php";
+              $query = mysqli_query($koneksi,"SELECT * FROM project join kategori using(id_kategori) where project_id = '$_GET[project_id]'");
+              $tampil=mysqli_fetch_array($query);
+              echo "<img src='admin/image/slide1/$tampil[slide1]'' class='img-fluid' alt=''>";
+              echo "<img src='admin/image/slide2/$tampil[slide2]'' class='img-fluid' alt=''>";
+              echo "<img src='admin/image/slide3/$tampil[slide3]'' class='img-fluid' alt=''>";
+              echo "<img src='admin/image/slide4/$tampil[slide4]'' class='img-fluid' alt=''>";
+              echo "<img src='admin/image/slide5/$tampil[slide5]'' class='img-fluid' alt=''>";
+            ?>
           </div>
 
           <div class="portfolio-info">
             <h3>Project Information</h3>
             <ul>
-              <li><strong>Category</strong>: Web </li>
-              <li><strong>Task</strong>: WEB Programing</li>
-              <li><strong>Project date</strong>: 14 July, 2020</li>
-              <li><strong>Project URL</strong>: <a href="https://github.com/salmanalfarissy26/berita.git" target="_blank">https://github.com/salmanalfarissy26/berita.git</a></li>
+              <?php 
+              $tanggal = date("j F, Y", strtotime($tampil['tanggal_project']));
+              echo "<li><strong>Category</strong>: $tampil[nama_kategori] </li>
+              <li><strong>Project Name</strong>: $tampil[nama_project]</li>
+              <li><strong>Project date</strong>: $tanggal</li>
+              <li><strong>Project URL</strong>: <a href='$tampil[url_project]' target='_blank'>$tampil[url_project]</a></li>"
+              
+              ?>
+
             </ul>
           </div>
 
@@ -114,14 +126,9 @@
 
         <div class="portfolio-description">
           <h2>Portfolio Detail</h2>
-          <p>
-            Web berita adalah website yang di rancang untuk menampilkan informasi-informasi terbaru seputar olahraga,gaya hidup,politik dan lain-alin.Website ini dirancang untuk memenuhi tugas dari WEB programing saya semester 4.Adapn fitu-fitur dari Web tersebut seperti :
-            <ul>
-              <li>halaman utama untuk menampilkan informasi terkait berita-berita terbaru.</li>
-              <li>halaman Administrator untuk Menginputkan admin baru,berita,dan dari kategori berita.</li>
-            </ul> 
-            Saya menggunakan bahasa php dan boostrap dalam pembuatan web tersebut.Seperti itulah detail dari web berita yang saya rancang.Jika tertarik dengan project web tersebut silahkan kunjungi link yang tertera pada bagian project information.
-          </p>
+          <?php 
+          echo $tampil['detail_project'];
+          ?>
         </div>
 
       </div>
